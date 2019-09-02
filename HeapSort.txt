@@ -1,0 +1,231 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define MAX_SIZE 10002
+ 
+void heapSort(int *A, int n);
+void buildHeap(int *A,int n);
+void heapify1(int *A,int k, int n);
+void heapify2(int *A,int k, int n);
+int temp[MAX_SIZE];
+int count=0;
+ 
+void buildHeap(int *A, int n){
+	
+	int i;
+	for(i=n/2;i>=1;i--)
+	heapify1(A,i,n); 
+}
+
+void heapify1(int *A, int k, int n){
+int bigger, left, right, temp;
+ 
+left = 2*k; 
+right = 2*k+1;
+	if(right<=n){
+		if(A[left]<=A[right])
+		bigger=right;
+		else bigger=left;
+	}
+	else if(left<=n)bigger=left;
+	else return;
+	
+	if(A[bigger]>A[k]){
+		temp=A[k];
+		A[k]=A[bigger];
+		A[bigger]=temp;
+		heapify1(A,bigger,n);
+	}
+	else return;
+}
+
+void heapify2(int *A, int k, int n){
+int bigger, left, right, temp;
+ 
+left = 2*k;
+right = 2*k+1;
+	if(right<=n){
+		if(A[left]<=A[right])
+		bigger=right;
+		else bigger=left;
+		}
+	else if(left<=n)bigger=left;
+	else return;
+	
+	if(A[bigger]>A[k]){
+		count++;
+		temp=A[k];
+		A[k]=A[bigger];
+		A[bigger]=temp;
+		heapify2(A,bigger,n);
+	}
+	else return;
+}
+ 
+void heapSort(int *A, int n){
+
+	int i, temp;
+	buildHeap(A,n);
+	
+	for(i=n;i>=2;i--){
+		temp=A[1];
+		A[1]=A[i];
+		A[i]=temp;
+		heapify2(A,1,i-1);
+	}
+}
+ 
+int main() {
+	int n;
+	int k;
+	int A[MAX_SIZE];
+ 
+	scanf("%d",&n);
+ 
+	for(k = 1; k <= n; k++)
+	scanf("%d",&A[k]);
+
+
+	heapSort(A,n);
+	/*for(k = 1; k <= n; k++)
+	printf("%d ",A[k]);
+	printf("\n");*/
+	printf("%d",count);
+	return 0;
+}
+
+
+/*
+
+Contents
+학원 선생님은 소년 빌게이츠가 열정적으로 코딩하는 모습을 보고 감동해서 다른 O(nlogn) 알고리즘인 HeapSort를 소개 해주었다. (소년 빌게이츠는 작년에 자료구조 시간에 Heap배워서 Heap을 구성 할 순 있었다.)
+
+1. A[1...n]에 대해서 Max-Heap를 구성한다
+
+2. A[1...k]에서 A[1]과 A[k]를 맞바꾼다.
+
+3. A[1...k-1]에서 다시 Max-Heap을 재구성한다.
+
+4. A[1...k-1]에 대해서 2, 3을 반복한다.
+
+여기서 3번의 Max-heap를 재구성할 때 필요한 원소의 교환 회수를 계산해서 출력한다. (1번의 과정을 위한 원소 교환 회수는 제외) 이 때 힙소트는 빌게이츠가 배운대로 구현되어야 한다.
+
+※ heapify에서 원소 비교 기준 추가
+
+1. 부모의 왼쪽 원소와 오른쪽 원소가 같은 경우 큰 것을 오른쪽 원소로 한다. 
+
+2. 부모와 bigger의 교환는 bigger가 클 때만 교환한다.
+
+Input
+첫 줄에는 정렬해야 하는 원소의 개수 n(1<=n<=10000)이 들어 온다. 
+
+그 다음 줄에는 n개의 임의의 정수가 들어 온다. 
+
+Output
+오름 차순으로 정렬하고, Max-heap를 재구성할 때 필요한 원소의 교환 회수를 계산해서 출력한다.
+
+Sample Input
+10
+0 7 1 6 7 7 6 6 5 4 
+ 
+Sample Output
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#define MAX_SIZE 10002
+ 
+void heapSort(int *A, int n);
+void buildHeap(int *A,int n);
+void heapify1(int *A,int k, int n);
+void heapify2(int *A,int k, int n);
+int temp[MAX_SIZE];
+int count=0;
+ 
+void buildHeap(int *A, int n){
+	
+	int i;
+	for(i=n/2;i>=1;i--)
+	heapify1(A,i,n); 
+}
+
+void heapify1(int *A, int k, int n){
+int bigger, left, right, temp;
+ 
+left = 2*k; 
+right = 2*k+1;
+	if(right<=n){
+		if(A[left]<=A[right])
+		bigger=right;
+		else bigger=left;
+	}
+	else if(left<=n)bigger=left;
+	else return;
+	
+	if(A[bigger]>A[k]){
+		temp=A[k];
+		A[k]=A[bigger];
+		A[bigger]=temp;
+		heapify1(A,bigger,n);
+	}
+	else return;
+}
+
+void heapify2(int *A, int k, int n){
+int bigger, left, right, temp;
+ 
+left = 2*k;
+right = 2*k+1;
+	if(right<=n){
+		if(A[left]<=A[right])
+		bigger=right;
+		else bigger=left;
+		}
+	else if(left<=n)bigger=left;
+	else return;
+	
+	if(A[bigger]>A[k]){
+		count++;
+		temp=A[k];
+		A[k]=A[bigger];
+		A[bigger]=temp;
+		heapify2(A,bigger,n);
+	}
+	else return;
+}
+ 
+void heapSort(int *A, int n){
+
+	int i, temp;
+	buildHeap(A,n);
+	
+	for(i=n;i>=2;i--){
+		temp=A[1];
+		A[1]=A[i];
+		A[i]=temp;
+		heapify2(A,1,i-1);
+	}
+}
+ 
+int main() {
+	int n;
+	int k;
+	int A[MAX_SIZE];
+ 
+	scanf("%d",&n);
+ 
+	for(k = 1; k <= n; k++)
+	scanf("%d",&A[k]);
+
+
+	heapSort(A,n);
+	/*for(k = 1; k <= n; k++)
+	printf("%d ",A[k]);
+	printf("\n");*/
+	printf("%d",count);
+	return 0;
+}
+12
+
+
+*/

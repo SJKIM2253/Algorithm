@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void) {
+
+int map[100][100];
+int n = 1, m = 1;
+int i, j;
+int x = 0, y = 0;
+int min = 0;
+
+scanf("%d %d", &n, &m);
+
+for(i=0;i<n;i++)
+for(j=0;j<m;j++)
+scanf("%d", &map[i][j]);
+
+
+
+
+min = map[0][0];
+
+while(x<n-1 || y<m-1) {
+if(x < n-1 && y < m-1) {
+if(map[x][y+1] < map[x+1][y]) {
+min += map[x][y+1];
+y++;
+}
+else {
+min += map[x+1][y];
+x++;
+}
+}
+else if(x == n-1 && y < m-1) {
+x = n - 1;
+min += map[x][y+1];
+y++;
+x = n;
+}
+else if(x < n-1 && y == m-1) {
+y = m - 1;
+min += map[x+1][y];
+x++;
+y = m;
+}
+}
+
+printf("%d", min);
+
+return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+int matrixPath(int l, int k, int A){
+	int a,b;
+	int c[MAT_SIZE][MAT_SIZE];
+	
+	c[1][1] = A[1][1];
+	
+	for(a=2;a<=l;a++)
+	c[a][1] = A[a][1]+c[a-1][1];
+	
+	for(b=2;b<=k;b++)
+	c[1][b]=A[1][b]+c[1][b-1];
+	
+	for(a=2;a<=l;a++)
+	for(b=2;b<=k;b++)
+	c[a][b]=A[a][b] + max(c[a-1][b],c[a][b-1]);
+	
+	return c[l][k];
+}
